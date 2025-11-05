@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvtoNazariya - Haydovchilik Nazariyasi</title>
+    <style>
+        /* Mobil uchun */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .menu-btn {
+        padding: 15px;
+        font-size: 16px;
+    }
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .menu-btn {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-test {
+            background: #3498db;
+        }
+
+        .btn-topics {
+            background: #2ecc71;
+        }
+
+        .btn-subscribe {
+            background: #f39c12;
+        }
+
+        .btn-tickets {
+            background: #9b59b6;
+        }
+
+        .tariflar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .tariflar h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .tarif-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tarif-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 AvtoNazariya</h1>
+            <p>1132 ta rasmiy savollar | Imtihon rejimi: BEPUL</p>
+        </div>
+
+        <div class="menu-grid">
+            <a href="#" class="menu-btn btn-test">🚀 Testni Boshlash</a>
+            <a href="#" class="menu-btn btn-topics">📚 Mavzular Bo'yicha</a>
+            <a href="#" class="menu-btn btn-subscribe">💳 Obuna (30,000 so'm)</a>
+            <a href="#" class="menu-btn btn-tickets">📋 Biletlar Bo'yicha</a>
+        </div>
+
+        <div class="tariflar">
+            <h3>🎯 Obuna Tariflari:</h3>
+            <div class="tarif-item">
+                <span>7 kunlik</span>
+                <strong>30,000 so'm</strong>
+            </div>
+            <div class="tarif-item">
+                <span>30 kunlik</span>
+                <strong>60,000 so'm</strong>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<a href="/test/" class="menu-btn btn-test">🚀 Testni Boshlash</a>

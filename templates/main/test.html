@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Rejimi - AvtoNazariya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .timer {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .progress {
+            background: #ecf0f1;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: #2ecc71;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .question-card {
+            margin-bottom: 25px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            border: 2px solid #3498db;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .option-btn.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .nav-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn-prev {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-next {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-submit {
+            background: #e74c3c;
+            color: white;
+            width: 100%;
+        }
+
+        /* Mobil uchun */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 5px;
+            }
+
+            .test-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .option-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="test-header">
+            <h3>🚗 Nazariya Testi</h3>
+            <div class="timer">⏱️ <span id="time">05:00</span></div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-text" id="questionText">
+                Yo'l belgisi qanday ma'noni anglatadi?
+            </div>
+
+            <div class="options" id="optionsContainer">
+                <button class="option-btn" onclick="selectOption(0)">To'xtash</button>
+                <button class="option-btn" onclick="selectOption(1)">Sekinlash</button>
+                <button class="option-btn" onclick="selectOption(2)">Ogohlantirish</button>
+                <button class="option-btn" onclick="selectOption(3)">Imtiyoz</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn btn-prev" onclick="prevQuestion()">⬅️ Oldingi</button>
+            <button class="nav-btn btn-next" onclick="nextQuestion()">Keyingi ➡️</button>
+        </div>
+
+        <button class="nav-btn btn-submit" onclick="submitTest()" style="display: none; margin-top: 15px;">
+            ✅ Testni Yakunlash
+        </button>
+    </div>
+
+    <script>
+        // Test ma'lumotlari
+        let currentQuestion = 0;
+        let answers = [];
+        let timeLeft = 300; // 5 daqiqa
+        let timerInterval;
+
+        // Namuna savollar (keyin Django dan oladi)
+        const questions = [
+            {
+                text: "Yo'l belgisi qanday ma'noni anglatadi?",
+                options: ["To'xtash", "Sekinlash", "Ogohlantirish", "Imtiyoz"],
+                correct: 2
+            },
+            {
+                text: "Shaharda maksimal tezlik qancha?",
+                options: ["60 km/soat", "70 km/soat", "80 km/soat", "90 km/soat"],
+                correct: 0
+            },
+            {
+                text: "Chiroq yoqilgan mashinani quvish...",
+                options: ["Ruxsat etiladi", "Man etiladi", "Faqat kechqurun", "Faqat shaharda"],
+                correct: 1
+            }
+        ];
+
+        // Timer ni boshlash
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('time').textContent =
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                // Progress bar
+                const progress = ((300 - timeLeft) / 300) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        // Savolni ko'rsatish
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionText').textContent = question.text;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                if (answers[currentQuestion] === index) {
+                    button.classList.add('selected');
+                }
+                button.textContent = option;
+                button.onclick = () => selectOption(index);
+                optionsContainer.appendChild(button);
+            });
+
+            // Navigation tugmalarini sozlash
+            document.querySelector('.btn-prev').style.display = currentQuestion === 0 ? 'none' : 'block';
+            document.querySelector('.btn-submit').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+            document.querySelector('.btn-next').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
+        }
+
+        // Variant tanlash
+        function selectOption(optionIndex) {
+            answers[currentQuestion] = optionIndex;
+            showQuestion();
+        }
+
+        // Keyingi savol
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        // Oldingi savol
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        // Testni yakunlash
+        function submitTest() {
+            clearInterval(timerInterval);
+
+            // Ballarni hisoblash
+            let score = 0;
+            answers.forEach((answer, index) => {
+                if (answer === questions[index].correct) {
+                    score++;
+                }
+            });
+
+            alert(`Test yakunlandi! Siz ${score} ta savolga to'g'ri javob berdingiz.`);
+            window.location.href = "/"; // Bosh sahifaga qaytish
+        }
+
+        // Dasturni ishga tushirish
+        startTimer();
+        showQuestion();
+    </script>
+</body>
+</html>

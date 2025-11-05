@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvtoNazariya - Haydovchilik Nazariyasi</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #333;
+        }
+
+        .app-container {
+            max-width: 100%;
+            min-height: 100vh;
+            background: white;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .user-welcome {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 20px 15px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 18px 12px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        /* Main Menu */
+        .main-menu {
+            padding: 0 15px 20px;
+        }
+
+        .menu-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .menu-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .menu-card:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .menu-card:active {
+            transform: translateY(-1px);
+        }
+
+        .menu-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .menu-card-title {
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 1.1rem;
+        }
+
+        .menu-card-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.3;
+        }
+
+        /* Subscription Banner */
+        .subscription-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 20px 15px;
+            margin: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .banner-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .banner-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .subscribe-btn {
+            background: white;
+            color: #ee5a24;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 25px 15px;
+            background: #f8f9fa;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin-bottom: 5px;
+        }
+
+        /* Loading */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* Mobile optimizatsiya */
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                padding: 15px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sarlavha -->
+        <div class="header">
+            <h1>🚗 AvtoNazariya</h1>
+            <p>Haydovchilik guvohnomasi nazariyasi</p>
+            <div class="user-welcome">
+                👋 Salom, <span id="userName">Foydalanuvchi</span>!
+            </div>
+        </div>
+
+        <!-- Statistika -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTests">0</div>
+                <div class="stat-label">Testlar</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="correctPercentage">0%</div>
+                <div class="stat-label">To'g'ri javob</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="userRank">#1</div>
+                <div class="stat-label">Reyting</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalQuestions">0</div>
+                <div class="stat-label">Savollar</div>
+            </div>
+        </div>
+
+        <!-- Asosiy menyu -->
+        <div class="main-menu">
+            <div class="menu-title">🎯 Imkoniyatlar</div>
+            <div class="menu-grid">
+                <a href="/webapp/test/" class="menu-card pulse">
+                    <div class="menu-icon">🚀</div>
+                    <div class="menu-card-title">Bepul Test</div>
+                    <div class="menu-card-desc">5 ta savol - sinab ko'ring</div>
+                </a>
+
+                <a href="/webapp/practice/" class="menu-card">
+                    <div class="menu-icon">🔁</div>
+                    <div class="menu-card-title">Mashq Qilish</div>
+                    <div class="menu-card-desc">Cheksiz savollar</div>
+                </a>
+
+                <a href="/webapp/topics/" class="menu-card">
+                    <div class="menu-icon">📚</div>
+                    <div class="menu-card-title">Mavzular</div>
+                    <div class="menu-card-desc">10+ ta kategoriya</div>
+                </a>
+
+                <a href="/webapp/results/" class="menu-card">
+                    <div class="menu-icon">📊</div>
+                    <div class="menu-card-title">Natijalarim</div>
+                    <div class="menu-card-desc">Batafsil statistika</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Obuna banner -->
+        <div class="subscription-banner">
+            <div class="banner-title">💎 To'liq Versiya</div>
+            <div class="banner-desc">Cheksiz testlar va barcha imkoniyatlar</div>
+            <button class="subscribe-btn" onclick="openSubscription()">
+                Obuna bo'lish - 30,000 so'm
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2024 AvtoNazariya. Barcha huquqlar himoyalangan.</p>
+            <p>1132 ta rasmiy savollar | Telegram: @avtonazariya_bot</p>
+        </div>
+    </div>
+
+    <script>
+        // Telegram WebApp API
+        const tg = window.Telegram.WebApp;
+
+        // WebApp ni ishga tushirish
+        tg.expand();
+        tg.enableClosingConfirmation();
+        tg.setHeaderColor('#667eea');
+        tg.setBackgroundColor('#ffffff');
+
+        // Foydalanuvchi ma'lumotlari
+        const user = tg.initDataUnsafe.user;
+        if (user) {
+            document.getElementById('userName').textContent = user.first_name;
+        }
+
+        // Statistikani yangilash
+        function updateStats() {
+            // Keyin backend dan olamiz
+            const userInfo = {
+                name: user ? user.first_name : "Foydalanuvchi",
+                tests: 5,
+                percentage: 85,
+                rank: 1,
+                questions: 25
+            };
+
+            document.getElementById('userName').textContent = userInfo.name;
+            document.getElementById('totalTests').textContent = userInfo.tests;
+            document.getElementById('correctPercentage').textContent = userInfo.percentage + '%';
+            document.getElementById('userRank').textContent = '#' + userInfo.rank;
+            document.getElementById('totalQuestions').textContent = userInfo.questions;
+        }
+
+        // Obuna bo'lish
+        function openSubscription() {
+            tg.showPopup({
+                title: "Obuna Bo'lish",
+                message: "To'liq versiya uchun @avtonazariya_admin ga murojaat qiling",
+                buttons: [
+                    {id: "contact", type: "default", text: "Admin bilan bog'lanish"},
+                    {type: "cancel"}
+                ]
+            }, function(buttonId) {
+                if (buttonId === "contact") {
+                    tg.openTelegramLink("https://t.me/avtonazariya_admin");
+                }
+            });
+        }
+
+        // Dastlabki yuklash
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+
+            // Loading animatsiyasini o'chirish
+            setTimeout(() => {
+                const pulseElements = document.querySelectorAll('.pulse');
+                pulseElements.forEach(el => {
+                    el.classList.remove('pulse');
+                });
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
