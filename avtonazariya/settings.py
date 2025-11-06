@@ -29,7 +29,10 @@ SECRET_KEY = 'django-insecure-ay5$#gj@6p0*jbh0&sq4qz=!0&m7o!(*@k=s@xcxqa9kk9t!^9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['avtonazariya.onrender.com',
+    'avtonazariya-2.onrender.com',  # ⬅️ YANGI DOMEN
+    'localhost',
+    '127.0.0.1']
 
 
 # Application definition
