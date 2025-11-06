@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ay5$#gj@6p0*jbh0&sq4qz=!0&m7o!(*@k=s@xcxqa9kk9t!^9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['avtonazariya.onrender.com',
     'avtonazariya-2.onrender.com',  # ⬅️ YANGI DOMEN
