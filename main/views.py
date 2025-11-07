@@ -29,3 +29,6 @@ def webapp_statistics(request):
 
 def webapp_profile(request):
     return render(request, 'main/webapp_profile.html')
+
+def webapp_loading(request):
+    return render(request, 'main/webapp_loading.html')
