@@ -15,4 +15,5 @@ urlpatterns = [
     path('webapp/statistics/', views.webapp_statistics, name='webapp_statistics'),
     path('webapp/profile/', views.webapp_profile, name='webapp_profile'),
     path('webapp/loading/', views.webapp_loading, name='webapp_loading'),
+    path('webapp/tests/', views.webapp_tests, name='webapp_tests'),
 ]
