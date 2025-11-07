@@ -32,3 +32,5 @@ def webapp_profile(request):
 
 def webapp_loading(request):
     return render(request, 'main/webapp_loading.html')
+def webapp_tests(request):
+    return render(request, 'main/webapp_tests.html')
