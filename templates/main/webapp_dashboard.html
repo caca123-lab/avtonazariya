@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AvtoNazariya - Dashboard</title>
+    <title>AvtoNazariya - Bosh Sahifa</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --warning: #f8961e;
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --white: #ffffff;
+            --primary: #5B8DFE;
+            --secondary: #6DE1F5;
+            --accent: #4361EE;
+            --text-dark: #1A1A2E;
+            --text-light: #666;
+            --bg-white: #FFFFFF;
+            --bg-light: #F8F9FA;
         }
 
         * {
@@ -24,63 +23,30 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            min-height: 100vh;
-            color: var(--dark);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-white);
+            color: var(--text-dark);
+            height: 100vh;
+            overflow-x: hidden;
         }
 
-        .app-container {
-            max-width: 100%;
-            min-height: 100vh;
-            background: var(--white);
-            border-radius: 30px 30px 0 0;
-            margin-top: 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Gradient Header */
-        .gradient-header {
+        /* Header */
+        .app-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: var(--white);
+            color: white;
             padding: 40px 25px 30px;
-            border-radius: 0 0 30px 30px;
+            border-radius: 0 0 25px 25px;
             position: relative;
             overflow: hidden;
         }
 
-        .header-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0.1;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white"/></svg>');
-        }
-
-        .user-info {
-            text-align: center;
+        .header-content {
             position: relative;
             z-index: 2;
         }
 
-        .avatar {
-            width: 70px;
-            height: 70px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 15px;
-            border: 3px solid rgba(255,255,255,0.3);
-        }
-
         .welcome-text {
-            font-size: 1.1rem;
+            font-size: 1rem;
             opacity: 0.9;
             margin-bottom: 5px;
         }
@@ -88,231 +54,175 @@
         .user-name {
             font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
-        /* Stats Cards */
-        .stats-container {
-            padding: 20px 15px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
 
-        .stat-card {
-            background: var(--white);
-            padding: 20px 15px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            border: 1px solid #f0f0f0;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #666;
-            font-weight: 500;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            padding: 0 15px 25px;
+        /* Main Content */
+        .main-content {
+            padding: 25px 20px 80px; /* Pastki navigatsiya uchun joy */
         }
 
         .section-title {
             font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 20px;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--text-dark);
         }
 
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: var(--primary);
-            border-radius: 2px;
-        }
-
-        .actions-grid {
+        /* Menu Grid */
+        .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            margin-bottom: 30px;
         }
 
-        .action-btn {
-            background: var(--white);
-            border: 2px solid #f0f0f0;
+        .menu-card {
+            background: var(--bg-white);
+            border: 2px solid #F0F0F0;
             border-radius: 20px;
             padding: 25px 15px;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
-            display: block;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .action-btn:hover {
+        .menu-card:hover {
             transform: translateY(-3px);
             border-color: var(--primary);
-            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.15);
+            box-shadow: 0 8px 25px rgba(91, 141, 254, 0.15);
         }
 
-        .action-icon {
+        .menu-icon {
             font-size: 2.5rem;
             margin-bottom: 12px;
             display: block;
         }
 
-        .action-title {
+        .menu-title {
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 1.1rem;
-            color: var(--dark);
         }
 
-        .action-desc {
+        .menu-desc {
             font-size: 0.8rem;
-            color: #666;
+            color: var(--text-light);
             line-height: 1.4;
         }
 
-        /* Progress Section */
-        .progress-card {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 25px 20px;
-            margin: 0 15px 25px;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-card::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-
-        .progress-header {
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-white);
+            border-top: 1px solid #E5E5E5;
+            padding: 10px 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .progress-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .progress-badge {
-            background: rgba(255,255,255,0.3);
-            padding: 6px 12px;
+            text-decoration: none;
+            color: var(--text-light);
+            padding: 8px 12px;
             border-radius: 15px;
-            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 80px;
         }
 
-        .progress-bar {
-            background: rgba(255,255,255,0.3);
-            height: 8px;
-            border-radius: 4px;
-            margin: 15px 0;
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(91, 141, 254, 0.1);
         }
 
-        .progress-fill {
-            background: white;
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
         }
 
-        .progress-text {
-            font-size: 0.9rem;
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* Stats Preview */
+        .stats-preview {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stats-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
             opacity: 0.9;
-            position: relative;
-            z-index: 2;
         }
 
         /* Mobile Responsive */
         @media (max-width: 480px) {
-            .gradient-header {
+            .app-header {
                 padding: 30px 20px 25px;
             }
             
-            .avatar {
-                width: 60px;
-                height: 60px;
-                font-size: 1.7rem;
-            }
-            
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                padding: 15px 10px;
-            }
-            
-            .stat-card {
-                padding: 15px 10px;
-            }
-            
-            .actions-grid {
+            .menu-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
             }
             
-            .action-btn {
+            .menu-card {
                 padding: 20px 15px;
             }
             
-            .progress-card {
-                margin: 0 10px 20px;
-                padding: 20px 15px;
+            .main-content {
+                padding: 20px 15px 80px;
+            }
+            
+            .bottom-nav {
+                padding: 8px 15px;
             }
         }
 
-        /* Loading Animation */
-        @keyframes fadeInUp {
+        /* Animations */
+        @keyframes slideUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
@@ -323,142 +233,133 @@
             }
         }
 
-        .animate-card {
-            animation: fadeInUp 0.6s ease-out;
+        .animate-in {
+            animation: slideUp 0.6s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <div class="gradient-header">
-            <div class="header-bg"></div>
-            <div class="user-info">
-                <div class="avatar">🚗</div>
-                <div class="welcome-text">Xush kelibsiz!</div>
-                <div class="user-name" id="userName">Foydalanuvchi</div>
-            </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="stats-container">
-            <div class="stat-card animate-card">
-                <div class="stat-icon">📊</div>
-                <div class="stat-value" id="totalTests">12</div>
-                <div class="stat-label">Testlar</div>
-            </div>
-            
-            <div class="stat-card animate-card">
-                <div class="stat-icon">🎯</div>
-                <div class="stat-value" id="accuracyRate">78%</div>
-                <div class="stat-label">To'g'ri javob</div>
-            </div>
-            
-            <div class="stat-card animate-card">
-                <div class="stat-icon">🔥</div>
-                <div class="stat-value" id="streakDays">5</div>
-                <div class="stat-label">Kunlar ketma-ket</div>
-            </div>
-            
-            <div class="stat-card animate-card">
-                <div class="stat-icon">🏆</div>
-                <div class="stat-value" id="userRank">#15</div>
-                <div class="stat-label">Reyting</div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-            <div class="section-title">Tezkor Harakatlar</div>
-            <div class="actions-grid">
-                <a href="/webapp/test/" class="action-btn">
-                    <div class="action-icon">⏱️</div>
-                    <div class="action-title">5 daqiqa test</div>
-                    <div class="action-desc">Tezkor tekshiruv</div>
-                </a>
-                
-                <a href="/webapp/practice/" class="action-btn">
-                    <div class="action-icon">🔁</div>
-                    <div class="action-title">Mashq qilish</div>
-                    <div class="action-desc">Cheksiz savollar</div>
-                </a>
-                
-                <a href="/webapp/topics/" class="action-btn">
-                    <div class="action-icon">📚</div>
-                    <div class="action-title">Mavzular</div>
-                    <div class="action-desc">10+ kategoriya</div>
-                </a>
-                
-                <a href="/webapp/statistics/" class="action-btn">
-                    <div class="action-icon">📈</div>
-                    <div class="action-title">Statistika</div>
-                    <div class="action-desc">Batafsil tahlil</div>
-                </a>
-            </div>
-        </div>
-
-        <!-- Progress -->
-        <div class="progress-card">
-            <div class="progress-header">
-                <div class="progress-title">🎯 Kunlik Maqsad</div>
-                <div class="progress-badge">Kun 5</div>
-            </div>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 75%"></div>
-            </div>
-            
-            <div class="progress-text" id="progressText">15/20 savol bajarildi</div>
+    <!-- Header -->
+    <div class="app-header">
+        <div class="header-content">
+            <div class="welcome-text">Assalomu alaykum,</div>
+            <div class="user-name" id="userName">Foydalanuvchi</div>
+            <div class="subtitle">Bugun siz nimalarni o'rganmoqchisiz?</div>
         </div>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Stats Preview -->
+        <div class="stats-preview animate-in">
+            <div class="stats-title">📊 Sizning statistikangiz</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalTests">12</div>
+                    <div class="stat-label">Testlar</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="accuracy">78%</div>
+                    <div class="stat-label">To'g'ri</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="streak">5</div>
+                    <div class="stat-label">Kunlar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="section-title">Bo'limlar</div>
+        <div class="menu-grid">
+            <a href="/webapp/topics/" class="menu-card animate-in">
+                <div class="menu-icon">📚</div>
+                <div class="menu-title">Mavzular</div>
+                <div class="menu-desc">Nazariy darslarni o'qish</div>
+            </a>
+            
+            <a href="/webapp/tests/" class="menu-card animate-in">
+                <div class="menu-icon">🧠</div>
+                <div class="menu-title">Testlar</div>
+                <div class="menu-desc">Bilimingizni sinang</div>
+            </a>
+            
+            <a href="/webapp/statistics/" class="menu-card animate-in">
+                <div class="menu-icon">📈</div>
+                <div class="menu-title">Statistika</div>
+                <div class="menu-desc">Natijalaringizni ko'ring</div>
+            </a>
+            
+            <a href="/webapp/profile/" class="menu-card animate-in">
+                <div class="menu-icon">👤</div>
+                <div class="menu-title">Profil</div>
+                <div class="menu-desc">Siz haqingizdagi ma'lumotlar</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="/webapp/topics/" class="nav-item">
+            <div class="nav-icon">📚</div>
+            <div class="nav-label">Mavzular</div>
+        </a>
+        
+        <a href="/webapp/tests/" class="nav-item active">
+            <div class="nav-icon">🧠</div>
+            <div class="nav-label">Testlar</div>
+        </a>
+        
+        <a href="/webapp/statistics/" class="nav-item">
+            <div class="nav-icon">📈</div>
+            <div class="nav-label">Statistika</div>
+        </a>
+        
+        <a href="/webapp/profile/" class="nav-item">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Profil</div>
+        </a>
+    </div>
+
     <script>
-        // Telegram WebApp
         const tg = window.Telegram.WebApp;
         
+        // WebApp ni sozlash
         tg.expand();
-        tg.setHeaderColor('#4361ee');
-        tg.setBackgroundColor('#ffffff');
+        tg.setHeaderColor('#5B8DFE');
+        tg.setBackgroundColor('#FFFFFF');
 
-        // User info
+        // Foydalanuvchi ma'lumotlari
         const user = tg.initDataUnsafe.user;
         if (user) {
             document.getElementById('userName').textContent = user.first_name;
         }
 
-        // Load user stats
-        function loadUserStats() {
+        // Statistikani yuklash
+        function loadStats() {
             const stats = {
                 totalTests: 12,
-                accuracyRate: '78%',
-                streakDays: 5,
-                userRank: '#15',
-                dailyGoal: {
-                    completed: 15,
-                    total: 20,
-                    progress: 75
-                }
+                accuracy: '78%',
+                streak: 5
             };
 
             document.getElementById('totalTests').textContent = stats.totalTests;
-            document.getElementById('accuracyRate').textContent = stats.accuracyRate;
-            document.getElementById('streakDays').textContent = stats.streakDays;
-            document.getElementById('userRank').textContent = stats.userRank;
-            
-            document.getElementById('progressFill').style.width = stats.dailyGoal.progress + '%';
-            document.getElementById('progressText').textContent = 
-                `${stats.dailyGoal.completed}/${stats.dailyGoal.total} savol bajarildi`;
+            document.getElementById('accuracy').textContent = stats.accuracy;
+            document.getElementById('streak').textContent = stats.streak;
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUserStats();
-            
-            // Add animation delays
-            const cards = document.querySelectorAll('.animate-card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
+        // Animatsiyalar
+        function initAnimations() {
+            const elements = document.querySelectorAll('.animate-in');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
             });
+        }
+
+        // Dastlabki yuklash
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            initAnimations();
         });
     </script>
 </body>
