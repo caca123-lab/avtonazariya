@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Bot token
 BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-WEB_APP_URL = "https://abc123.serveo.net/webapp_home"  # Keyin o'zgartirasiz
+WEB_APP_URL = "https://avtonazariya-2.onrender.com/webapp/loading/"  # Keyin o'zgartirasiz
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
