@@ -30,11 +30,29 @@
             overflow-x: hidden;
         }
 
+        /* Online Counter */
+        .online-counter {
+            position: fixed;
+            top: 10px;
+            right: 15px;
+            background: rgba(91, 141, 254, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
         /* Header */
         .app-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 40px 25px 30px;
+            padding: 50px 25px 30px;
             border-radius: 0 0 25px 25px;
             position: relative;
             overflow: hidden;
@@ -64,7 +82,7 @@
 
         /* Main Content */
         .main-content {
-            padding: 25px 20px 80px; /* Pastki navigatsiya uchun joy */
+            padding: 25px 20px 80px;
         }
 
         .section-title {
@@ -160,47 +178,10 @@
             font-weight: 500;
         }
 
-        /* Stats Preview */
-        .stats-preview {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-        }
-
-        .stats-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 10px;
-        }
-
-        .stat-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            opacity: 0.9;
-        }
-
         /* Mobile Responsive */
         @media (max-width: 480px) {
             .app-header {
-                padding: 30px 20px 25px;
+                padding: 45px 20px 25px;
             }
             
             .menu-grid {
@@ -239,6 +220,11 @@
     </style>
 </head>
 <body>
+    <!-- Online Counter -->
+    <div class="online-counter">
+        <span>●</span> 124 online
+    </div>
+
     <!-- Header -->
     <div class="app-header">
         <div class="header-content">
@@ -250,25 +236,6 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Stats Preview -->
-        <div class="stats-preview animate-in">
-            <div class="stats-title">📊 Sizning statistikangiz</div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value" id="totalTests">12</div>
-                    <div class="stat-label">Testlar</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="accuracy">78%</div>
-                    <div class="stat-label">To'g'ri</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="streak">5</div>
-                    <div class="stat-label">Kunlar</div>
-                </div>
-            </div>
-        </div>
-
         <!-- Menu Grid -->
         <div class="section-title">Bo'limlar</div>
         <div class="menu-grid">
@@ -335,19 +302,6 @@
             document.getElementById('userName').textContent = user.first_name;
         }
 
-        // Statistikani yuklash
-        function loadStats() {
-            const stats = {
-                totalTests: 12,
-                accuracy: '78%',
-                streak: 5
-            };
-
-            document.getElementById('totalTests').textContent = stats.totalTests;
-            document.getElementById('accuracy').textContent = stats.accuracy;
-            document.getElementById('streak').textContent = stats.streak;
-        }
-
         // Animatsiyalar
         function initAnimations() {
             const elements = document.querySelectorAll('.animate-in');
@@ -358,7 +312,6 @@
 
         // Dastlabki yuklash
         document.addEventListener('DOMContentLoaded', function() {
-            loadStats();
             initAnimations();
         });
     </script>
