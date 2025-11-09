@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +16,7 @@
             --bg-light: #F8F9FA;
             --success: #4CAF50;
             --warning: #FF9800;
+            --danger: #f44336;
         }
 
         * {
@@ -30,6 +31,24 @@
             color: var(--text-dark);
             height: 100vh;
             overflow-x: hidden;
+        }
+
+        /* Online Counter */
+        .online-counter {
+            position: fixed;
+            top: 10px;
+            right: 15px;
+            background: rgba(91, 141, 254, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         /* Header */
@@ -89,74 +108,86 @@
         .tests-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 20px;
         }
 
         .test-card {
             background: var(--bg-white);
             border: 2px solid #F0F0F0;
             border-radius: 20px;
-            padding: 20px;
+            padding: 25px 20px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
         }
 
         .test-card:active {
             transform: scale(0.98);
         }
 
+        .test-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
         .test-header {
             display: flex;
-            justify-content: between;
             align-items: flex-start;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .test-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-right: 15px;
             flex-shrink: 0;
         }
 
         .test-icon.quick { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
         .test-icon.full { background: linear-gradient(135deg, #4CAF50, #45a049); }
-        .test-icon.topic { background: linear-gradient(135deg, #2196F3, #1976D2); }
 
         .test-info {
             flex: 1;
         }
 
         .test-name {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: var(--text-dark);
         }
 
         .test-desc {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-light);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             line-height: 1.4;
         }
 
         .test-meta {
             display: flex;
-            gap: 15px;
-            font-size: 0.8rem;
+            gap: 20px;
+            font-size: 0.85rem;
             color: var(--text-light);
         }
 
         .meta-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         .start-btn {
@@ -164,13 +195,15 @@
             color: white;
             border: none;
             border-radius: 15px;
-            padding: 12px 25px;
-            font-weight: 600;
+            padding: 15px 0;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
-            margin-top: 10px;
+            font-size: 1rem;
             width: 100%;
+            text-align: center;
+            display: block;
+            text-decoration: none;
         }
 
         .start-btn:active {
@@ -247,7 +280,13 @@
             }
             
             .test-card {
-                padding: 15px;
+                padding: 20px 15px;
+            }
+            
+            .test-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
             }
             
             .bottom-nav {
@@ -257,6 +296,11 @@
     </style>
 </head>
 <body>
+    <!-- Online Counter -->
+    <div class="online-counter">
+        <span>●</span> 124 online
+    </div>
+
     <!-- Header -->
     <div class="page-header">
         <div class="header-content">
@@ -272,52 +316,40 @@
         </div>
 
         <div class="tests-grid">
-            <!-- Tezkor Test -->
-            <div class="test-card animate-in" onclick="startTest('quick')">
+            <!-- 5 daqiqa Test -->
+            <div class="test-card animate-in">
+                <div class="test-badge">Tezkor</div>
                 <div class="test-header">
                     <div class="test-icon quick">⏱️</div>
                     <div class="test-info">
                         <div class="test-name">5 daqiqa test</div>
-                        <div class="test-desc">Tezkor bilim tekshiruvi</div>
+                        <div class="test-desc">Tezkor bilim tekshiruvi - 5 daqiqa ichida qancha savolga javob bera olasiz?</div>
                         <div class="test-meta">
                             <div class="meta-item">📊 10 savol</div>
                             <div class="meta-item">⏰ 5 daqiqa</div>
+                            <div class="meta-item">✅ Cheksiz</div>
                         </div>
                     </div>
                 </div>
-                <button class="start-btn" onclick="event.stopPropagation(); startTest('quick')">Boshlash</button>
+                <a href="/webapp/test/quick/" class="start-btn">Testni boshlash</a>
             </div>
 
             <!-- To'liq Test -->
-            <div class="test-card animate-in" onclick="startTest('full')">
+            <div class="test-card animate-in">
+                <div class="test-badge">To'liq</div>
                 <div class="test-header">
                     <div class="test-icon full">📝</div>
                     <div class="test-info">
                         <div class="test-name">To'liq test</div>
-                        <div class="test-desc">Barcha mavzular bo'yicha</div>
-                        <div class="test-meta">
-                            <div class="meta-item">📊 30 savol</div>
-                            <div class="meta-item">⏰ 15 daqiqa</div>
-                        </div>
-                    </div>
-                </div>
-                <button class="start-btn" onclick="event.stopPropagation(); startTest('full')">Boshlash</button>
-            </div>
-
-            <!-- Mavzu Testi -->
-            <div class="test-card animate-in" onclick="startTest('topic')">
-                <div class="test-header">
-                    <div class="test-icon topic">📚</div>
-                    <div class="test-info">
-                        <div class="test-name">Mavzu bo'yicha test</div>
-                        <div class="test-desc">Yo'l belgilari, parkirash...</div>
+                        <div class="test-desc">Barcha mavzular bo'yicha 20 ta savol - haqiqiy bilimingizni sinang</div>
                         <div class="test-meta">
                             <div class="meta-item">📊 20 savol</div>
-                            <div class="meta-item">⏰ 10 daqiqa</div>
+                            <div class="meta-item">⏰ 15 daqiqa</div>
+                            <div class="meta-item">❌ 2 xato</div>
                         </div>
                     </div>
                 </div>
-                <button class="start-btn" onclick="event.stopPropagation(); startTest('topic')">Mavzuni tanlash</button>
+                <a href="/webapp/test/full/" class="start-btn">Testni boshlash</a>
             </div>
         </div>
     </div>
@@ -356,28 +388,6 @@
         // Orqaga qaytish
         function goBack() {
             window.history.back();
-        }
-
-        // Testni boshlash
-        function startTest(testType) {
-            // Press animatsiya
-            event.currentTarget.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                event.currentTarget.style.transform = 'scale(1)';
-            }, 150);
-
-            // Testni boshlash
-            switch(testType) {
-                case 'quick':
-                    window.location.href = '/webapp/test/quick/';
-                    break;
-                case 'full':
-                    window.location.href = '/webapp/test/full/';
-                    break;
-                case 'topic':
-                    window.location.href = '/webapp/topics/';
-                    break;
-            }
         }
 
         // Animatsiyalar
