@@ -403,5 +403,45 @@
             initAnimations();
         });
     </script>
+ <script>
+    const tg = window.Telegram.WebApp;
+    
+    // WebApp ni sozlash
+    tg.expand();
+        tg.setHeaderColor('#5B8DFE');
+    tg.setBackgroundColor('#FFFFFF');
+
+    // Orqaga qaytish
+    function goBack() {
+        window.history.back();
+    }
+
+    // Random online counter
+    function startOnlineUpdates() {
+        // Har 30 sekundda yangilash
+        setInterval(() => {
+            // 120-130 oralig'ida random son
+            const onlineCount = Math.floor(Math.random() * 11) + 120;
+            const onlineElement = document.querySelector('.online-counter');
+            if (onlineElement) {
+                onlineElement.innerHTML = `<span>●</span> ${onlineCount} online`;
+            }
+        }, 30000);
+    }
+
+    // Animatsiyalar
+    function initAnimations() {
+        const elements = document.querySelectorAll('.animate-in');
+        elements.forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.1}s`;
+        });
+    }
+
+    // Dastlabki yuklash
+    document.addEventListener('DOMContentLoaded', function() {
+        initAnimations();
+        startOnlineUpdates(); // Online counter ni ishga tushirish
+    });
+</script>
 </body>
 </html>
